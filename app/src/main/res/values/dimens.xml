@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_small_tiny">20sp</dimen>
+    <dimen name="text_small">25sp</dimen>
+    <dimen name="text_medium">30sp</dimen>
+    <dimen name="text_large">35sp</dimen>
+    <dimen name="text_huge">40sp</dimen>
+    <dimen name="text_huge_max">45sp</dimen>
+    <dimen name="button_small">25sp</dimen>
+    <dimen name="button_medium">30sp</dimen>
+    <dimen name="button_large">35sp</dimen>
+    <dimen name="button_huge">40sp</dimen>
+    <dimen name="button_huge_max">45sp</dimen>
+</resources>
