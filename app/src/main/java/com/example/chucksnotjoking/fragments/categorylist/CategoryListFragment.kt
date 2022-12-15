@@ -8,9 +8,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.chucksnotjoking.CategoryItemClickListener
+import com.example.chucksnotjoking.data.Category
 import com.example.chucksnotjoking.databinding.FragmentCategorylistBinding
+import com.example.chucksnotjoking.fragments.joke.JokeFragment
+import com.example.chucksnotjoking.replaceFragment
 
-class CategoryListFragment : Fragment() {
+class CategoryListFragment : Fragment(), CategoryItemClickListener {
 
     companion object {
         fun newInstance() = CategoryListFragment()
@@ -18,7 +22,7 @@ class CategoryListFragment : Fragment() {
 
     private var _binding: FragmentCategorylistBinding? = null
     private val binding get() = _binding!!
-    private val adapter = CategoryListAdapter()
+    private val adapter = CategoryListAdapter(this)
     private val viewModel: CategoryListViewModel by viewModels()
 
     override fun onCreateView(
@@ -42,7 +46,7 @@ class CategoryListFragment : Fragment() {
         error.retry.setOnClickListener {
             viewModel.onRetryClick()
         }
-        categoryListSwipeRefresh.setOnRefreshListener {
+        swipeRefresh.setOnRefreshListener {
             viewModel.onUpdate()
         }
     }
@@ -50,12 +54,16 @@ class CategoryListFragment : Fragment() {
     private fun initObservers() = with(binding) {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             progressBar.root.isVisible = state is Loading
-            categoryListSwipeRefresh.isRefreshing = state is Updating
+            swipeRefresh.isRefreshing = state is Updating
             error.root.isVisible = state is Error
             if (state is Success) {
                 adapter.submitList(state.categoryList)
             }
         }
+    }
+
+    override fun onCategoryItemClick(item: Category) {
+        replaceFragment(JokeFragment.newInstance(item.name))
     }
 
     override fun onDestroyView() {

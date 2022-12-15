@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chucksnotjoking.CategoryItemClickListener
 import com.example.chucksnotjoking.R
 import com.example.chucksnotjoking.data.Category
 import com.example.chucksnotjoking.databinding.CategoryItemBinding
 
-class CategoryListAdapter :
+class CategoryListAdapter(private val listener: CategoryItemClickListener) :
     ListAdapter<Category, CategoryListAdapter.Holder>(JokeCategoryComparator()) {
 
     inner class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,5 +42,8 @@ class CategoryListAdapter :
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val currentItem = getItem(position)
         holder.bind(currentItem)
+        holder.itemView.setOnClickListener {
+            listener.onCategoryItemClick(currentItem)
+        }
     }
 }
